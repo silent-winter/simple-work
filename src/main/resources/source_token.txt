@@ -1,9 +1,9 @@
-<IDENTIFIER:(read)> <IDENTIFIER:(x)> <ANNOTATION>
-<IDENTIFIER:(if)> <NUMBER:(0)> <SPECIAL:(<)> <IDENTIFIER:(x)> <IDENTIFIER:(then)> <ANNOTATION>
+<KEYWORD:(read)> <IDENTIFIER:(x)> <ANNOTATION>
+<KEYWORD:(if)> <NUMBER:(0)> <SPECIAL:(<)> <IDENTIFIER:(x)> <KEYWORD:(then)> <ANNOTATION>
     <IDENTIFIER:(fact)> <SPECIAL:(:=)> <NUMBER:(1)>
-    <IDENTIFIER:(repeat)>
+    <KEYWORD:(repeat)>
         <IDENTIFIER:(fact)> <SPECIAL:(:=)> <IDENTIFIER:(fact)> <SPECIAL:(^)> <IDENTIFIER:(x)>
         <IDENTIFIER:(x)> <SPECIAL:(:=)> <IDENTIFIER:(x)> <SPECIAL:(-)> <NUMBER:(1)>
     <IDENTIFIER:(until)> <IDENTIFIER:(x)> <SPECIAL:(=)> <NUMBER:(0)>
-    <IDENTIFIER:(write)> <IDENTIFIER:(fact)> <ANNOTATION>
+    <KEYWORD:(write)> <IDENTIFIER:(fact)> <ANNOTATION>
 <IDENTIFIER:(end)>

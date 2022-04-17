@@ -1,10 +1,9 @@
 package com.xinzi.compile.lexical.util;
 
 import java.io.*;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +16,13 @@ public class FileUtil {
 
     public static Map<String, String> readProperties(String filename) {
         ResourceBundle bundle = ResourceBundle.getBundle(filename);
-        return bundle.keySet().stream().collect(Collectors.toMap(Function.identity(), bundle::getString));
+        String[] keys = {"number", "keyword", "special", "identifier"};
+        Map<String, String> map = new LinkedHashMap<>();
+        for (String key : keys) {
+            String value = bundle.getString(key);
+            map.put(key, value);
+        }
+        return map;
     }
 
 
