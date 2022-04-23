@@ -1,7 +1,8 @@
-package com.xinzi.data;
+package com.xinzi.data.util;
 
 import com.xinzi.data.apriori.CandidateSet;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,26 +15,32 @@ import java.util.stream.Collectors;
  */
 public class SimpleDataUtil {
 
-    // 数据
-    public static final List<List<String>> SIMPLE_DATA = new ArrayList<List<String>>(){{
-        add(Arrays.asList("r", "z", "h", "j", "p"));
-        add(Arrays.asList("z", "y", "x", "w", "v", "u", "t", "s"));
-        add(Collections.singletonList("z"));
-        add(Arrays.asList("r", "x", "n", "o", "s"));
-        add(Arrays.asList("y", "r", "x", "z", "q", "t", "p"));
-        add(Arrays.asList("y", "z", "x", "e", "q", "s", "t", "m"));
-    }};
     // 最小支持度
-    public static final Integer SUPPORT = 2;
+    public static final Integer SUPPORT = 10000;
+    // 数据
+    public static List<List<String>> SIMPLE_DATA;
+
+    static {
+        SIMPLE_DATA = FileUtil.readFile(new File("E:\\JavaEE\\project\\simple-work\\src\\main\\resources\\retail.dat"));
+    }
 
 
-    public static Map<String, Integer> loadDataForFPGrowth() {
-        Map<String, Integer> dataMap = loadDataForApriori();
+    public static Map<String, Integer> loadData() {
+        Map<String, Integer> dataMap = new HashMap<>();
+        for (List<String> simpleDatum : SIMPLE_DATA) {
+            for (String key : simpleDatum) {
+                if (dataMap.containsKey(key)) {
+                    Integer count = dataMap.get(key);
+                    dataMap.put(key, count + 1);
+                } else {
+                    dataMap.put(key, 1);
+                }
+            }
+        }
         // 清理支持度小于SUPPORT的
         clearLessThanSupport(dataMap);
         return dataMap;
     }
-
 
     private static void clearLessThanSupport(Map<String, Integer> dataMap) {
         Iterator<Map.Entry<String, Integer>> iterator = dataMap.entrySet().iterator();
@@ -46,23 +53,6 @@ public class SimpleDataUtil {
         }
     }
 
-
-    public static Map<String, Integer> loadDataForApriori() {
-        Map<String, Integer> dataMap = new HashMap<>();
-        for (List<String> simpleDatum : SIMPLE_DATA) {
-            for (String key : simpleDatum) {
-                if (dataMap.containsKey(key)) {
-                    Integer count = dataMap.get(key);
-                    dataMap.put(key, count + 1);
-                } else {
-                    dataMap.put(key, 1);
-                }
-            }
-        }
-        return dataMap;
-    }
-
-
     public static List<List<String>> getSortedData(Map<String, Integer> dataMap) {
         List<List<String>> nData = new ArrayList<>();
         for (List<String> simpleDatum : SIMPLE_DATA) {
@@ -72,12 +62,13 @@ public class SimpleDataUtil {
                 }
                 return dataMap.get(o2) - dataMap.get(o1);
             }).collect(Collectors.toList());
+            if (sortedList.isEmpty()) {
+                continue;
+            }
             nData.add(sortedList);
         }
-        System.out.println(nData);
         return nData;
     }
-
 
     public static int findInOriginItems(CandidateSet candidateSet) {
         int ans = 0;

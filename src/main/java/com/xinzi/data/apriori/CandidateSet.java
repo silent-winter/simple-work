@@ -1,5 +1,6 @@
 package com.xinzi.data.apriori;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +26,11 @@ public class CandidateSet {
         data.addAll(candidateSet.data);
     }
 
+    public CandidateSet(Collection<String> collection) {
+        this.data = new HashSet<>();
+        data.addAll(collection);
+    }
+
 
     public int size() {
         return data.size();
@@ -36,6 +42,10 @@ public class CandidateSet {
 
     public void remove(String key) {
         data.remove(key);
+    }
+
+    public boolean containsAll(CandidateSet candidateSet) {
+        return data.containsAll(candidateSet.data);
     }
 
     @Override

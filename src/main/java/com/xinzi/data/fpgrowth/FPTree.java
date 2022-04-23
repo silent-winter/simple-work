@@ -1,6 +1,6 @@
 package com.xinzi.data.fpgrowth;
 
-import com.xinzi.data.SimpleDataUtil;
+import com.xinzi.data.util.SimpleDataUtil;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,7 +22,7 @@ public class FPTree {
 
 
     public FPTree() {
-        this.dataMap = SimpleDataUtil.loadDataForFPGrowth();
+        this.dataMap = SimpleDataUtil.loadData();
         this.root = FPTreeNode.builder().value("null").children(new ArrayList<>()).build();
         this.headerTable = new HashMap<>();
         dataMap.forEach((k, v) -> {
@@ -39,12 +39,6 @@ public class FPTree {
         }
     }
 
-    public void create(List<List<String>> data) {
-        for (List<String> records : data) {
-            doCreate(root, records);
-        }
-    }
-
 
     // 查找元素的条件模式基
     public Map<PrefixPath, Integer> findPrefixPath(String key) {
@@ -56,9 +50,9 @@ public class FPTree {
             Integer count = head.count;
             FPTreeNode currNode = head.parent;
             // 自定义path类
-            PrefixPath path = new PrefixPath();
+            PrefixPath path = new PrefixPath(key);
             while (currNode.parent != null) {
-                path.addFront(currNode.value);
+                path.add(currNode.value);
                 currNode = currNode.parent;
             }
             pathMap.put(path, count);

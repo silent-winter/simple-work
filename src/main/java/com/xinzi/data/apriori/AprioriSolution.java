@@ -1,6 +1,6 @@
 package com.xinzi.data.apriori;
 
-import com.xinzi.data.SimpleDataUtil;
+import com.xinzi.data.util.SimpleDataUtil;
 
 import java.util.*;
 
@@ -19,7 +19,7 @@ public class AprioriSolution {
 
 
     public AprioriSolution() {
-        this.originData = SimpleDataUtil.loadDataForApriori();
+        this.originData = SimpleDataUtil.loadData();
         this.data = new HashMap<>();
         originData.forEach((k, v) -> {
             CandidateSet candidateSet = new CandidateSet(k);

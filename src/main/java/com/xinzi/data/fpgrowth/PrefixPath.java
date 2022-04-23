@@ -11,7 +11,7 @@ import java.util.LinkedList;
  * @Auther: xinzi
  * @Date: 2022/03/11/12:47
  */
-public class PrefixPath {
+public class PrefixPath implements Comparable<PrefixPath> {
 
     private final LinkedList<String> path;
 
@@ -20,12 +20,25 @@ public class PrefixPath {
         this.path = new LinkedList<>();
     }
 
-    public void addFront(String key) {
+    public PrefixPath(String key) {
+        this.path = new LinkedList<>();
+        path.addFirst(key);
+    }
+
+    public void add(String key) {
         path.addFirst(key);
     }
 
     public LinkedList<String> getPath() {
         return path;
+    }
+
+    public int size() {
+        return path.size();
+    }
+
+    public boolean containsAll(PrefixPath path) {
+        return this.path.containsAll(path.path);
     }
 
     @Override
@@ -61,5 +74,18 @@ public class PrefixPath {
             }
         }
         return true;
+    }
+
+
+    @Override
+    public int compareTo(PrefixPath o) {
+        LinkedList<String> path = o.getPath();
+        if (path.containsAll(this.path) && this.path.containsAll(path)) {
+            return 0;
+        }
+        if (path.size() != this.path.size()) {
+            return Integer.compare(path.size(), this.path.size());
+        }
+        return 1;
     }
 }
