@@ -2,7 +2,9 @@ package com.xinzi.data.fpgrowth;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,25 +13,25 @@ import java.util.LinkedList;
  * @Auther: xinzi
  * @Date: 2022/03/11/12:47
  */
-public class PrefixPath implements Comparable<PrefixPath> {
+public class PrefixPath {
 
-    private final LinkedList<String> path;
+    private final Set<String> path;
 
 
     public PrefixPath() {
-        this.path = new LinkedList<>();
+        this.path = new HashSet<>();
     }
 
     public PrefixPath(String key) {
-        this.path = new LinkedList<>();
-        path.addFirst(key);
+        this.path = new HashSet<>();
+        path.add(key);
     }
 
     public void add(String key) {
-        path.addFirst(key);
+        path.add(key);
     }
 
-    public LinkedList<String> getPath() {
+    public Set<String> getPath() {
         return path;
     }
 
@@ -64,28 +66,11 @@ public class PrefixPath implements Comparable<PrefixPath> {
             return true;
         }
         PrefixPath prefixPath = (PrefixPath) obj;
-        LinkedList<String> nPath = prefixPath.getPath();
+        Set<String> nPath = prefixPath.getPath();
         if (path.size() != nPath.size()) {
             return false;
         }
-        for (int i = 0; i < path.size(); i++) {
-            if (!StringUtils.equals(path.get(i), nPath.get(i))) {
-                return false;
-            }
-        }
-        return true;
+        return path.containsAll(nPath) && nPath.containsAll(path);
     }
 
-
-    @Override
-    public int compareTo(PrefixPath o) {
-        LinkedList<String> path = o.getPath();
-        if (path.containsAll(this.path) && this.path.containsAll(path)) {
-            return 0;
-        }
-        if (path.size() != this.path.size()) {
-            return Integer.compare(path.size(), this.path.size());
-        }
-        return 1;
-    }
 }

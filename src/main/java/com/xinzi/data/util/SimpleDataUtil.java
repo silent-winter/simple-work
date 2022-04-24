@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class SimpleDataUtil {
 
     // 最小支持度
-    public static final Integer SUPPORT = 10000;
+    public static final Integer SUPPORT = 441;
     // 数据
     public static List<List<String>> SIMPLE_DATA;
 
@@ -25,15 +25,15 @@ public class SimpleDataUtil {
     }
 
 
-    public static Map<String, Integer> loadData() {
-        Map<String, Integer> dataMap = new HashMap<>();
+    public static Map<String, Long> loadData() {
+        Map<String, Long> dataMap = new HashMap<>();
         for (List<String> simpleDatum : SIMPLE_DATA) {
             for (String key : simpleDatum) {
                 if (dataMap.containsKey(key)) {
-                    Integer count = dataMap.get(key);
+                    Long count = dataMap.get(key);
                     dataMap.put(key, count + 1);
                 } else {
-                    dataMap.put(key, 1);
+                    dataMap.put(key, 1L);
                 }
             }
         }
@@ -42,25 +42,25 @@ public class SimpleDataUtil {
         return dataMap;
     }
 
-    private static void clearLessThanSupport(Map<String, Integer> dataMap) {
-        Iterator<Map.Entry<String, Integer>> iterator = dataMap.entrySet().iterator();
+    private static void clearLessThanSupport(Map<String, Long> dataMap) {
+        Iterator<Map.Entry<String, Long>> iterator = dataMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<String, Integer> entry = iterator.next();
-            Integer count = entry.getValue();
+            Map.Entry<String, Long> entry = iterator.next();
+            Long count = entry.getValue();
             if (count < SUPPORT) {
                 iterator.remove();
             }
         }
     }
 
-    public static List<List<String>> getSortedData(Map<String, Integer> dataMap) {
+    public static List<List<String>> getSortedData(Map<String, Long> dataMap) {
         List<List<String>> nData = new ArrayList<>();
         for (List<String> simpleDatum : SIMPLE_DATA) {
             List<String> sortedList = simpleDatum.stream().filter(dataMap::containsKey).sorted((o1, o2) -> {
                 if (Objects.equals(dataMap.get(o1), dataMap.get(o2))) {
                     return o2.compareTo(o1);
                 }
-                return dataMap.get(o2) - dataMap.get(o1);
+                return (int) (dataMap.get(o2) - dataMap.get(o1));
             }).collect(Collectors.toList());
             if (sortedList.isEmpty()) {
                 continue;
@@ -70,8 +70,8 @@ public class SimpleDataUtil {
         return nData;
     }
 
-    public static int findInOriginItems(CandidateSet candidateSet) {
-        int ans = 0;
+    public static Long findInOriginItems(CandidateSet candidateSet) {
+        Long ans = 0L;
         for (List<String> list : SIMPLE_DATA) {
             if (list.containsAll(candidateSet.data)) {
                 ans++;

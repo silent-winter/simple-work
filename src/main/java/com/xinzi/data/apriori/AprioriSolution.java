@@ -13,9 +13,9 @@ import java.util.*;
  */
 public class AprioriSolution {
 
-    private final Map<String, Integer> originData;
+    private final Map<String, Long> originData;
 
-    private Map<CandidateSet, Integer> data;
+    private Map<CandidateSet, Long> data;
 
 
     public AprioriSolution() {
@@ -32,15 +32,16 @@ public class AprioriSolution {
         Integer support = SimpleDataUtil.SUPPORT;
         int size = this.itemSize();
         System.out.print("频繁" + size + "项集: ");
-        Iterator<Map.Entry<CandidateSet, Integer>> iterator = data.entrySet().iterator();
+        Iterator<Map.Entry<CandidateSet, Long>> iterator = data.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<CandidateSet, Integer> entry = iterator.next();
-            Integer count = entry.getValue();
+            Map.Entry<CandidateSet, Long> entry = iterator.next();
+            Long count = entry.getValue();
             if (count < support) {
                 iterator.remove();
             }
         }
         System.out.println(data);
+        System.out.println("频繁" + size + "项集个数: " + data.size());
     }
 
     public int itemSize() {
@@ -52,12 +53,12 @@ public class AprioriSolution {
             throw new RuntimeException("error in extend, invalid param!!");
         }
         Set<String> elements = originData.keySet();
-        Map<CandidateSet, Integer> newData = new HashMap<>();
+        Map<CandidateSet, Long> newData = new HashMap<>();
         data.forEach((candidateSet, support) -> {
             for (String element : elements) {
                 candidateSet.add(element);
                 if (candidateSet.size() == targetItemSize) {
-                    int count = SimpleDataUtil.findInOriginItems(candidateSet);
+                    Long count = SimpleDataUtil.findInOriginItems(candidateSet);
                     newData.put(new CandidateSet(candidateSet), count);
                 }
                 candidateSet.remove(element);

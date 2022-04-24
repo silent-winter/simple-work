@@ -16,9 +16,9 @@ import java.util.*;
 @Data
 public class FPTree {
 
-    private final Map<String, Integer> dataMap;
-    private final Map<String, Header> headerTable;
-    private final FPTreeNode root;
+    public Map<String, Long> dataMap;
+    public Map<String, Header> headerTable;
+    public FPTreeNode root;
 
 
     public FPTree() {
@@ -29,10 +29,21 @@ public class FPTree {
             Header header = Header.builder().value(k).count(v).build();
             headerTable.put(k, header);
         });
+        this.create();
+    }
+
+    public FPTree(Map<String, Long> data) {
+        this.dataMap.putAll(data);
+        this.root = FPTreeNode.builder().value("null").children(new ArrayList<>()).build();
+        this.headerTable = new HashMap<>();
+        dataMap.forEach((k, v) -> {
+            Header header = Header.builder().value(k).count(v).build();
+            headerTable.put(k, header);
+        });
     }
 
 
-    public void create() {
+    private void create() {
         List<List<String>> sortedData = SimpleDataUtil.getSortedData(dataMap);
         for (List<String> records : sortedData) {
             doCreate(root, records);
@@ -41,13 +52,13 @@ public class FPTree {
 
 
     // 查找元素的条件模式基
-    public Map<PrefixPath, Integer> findPrefixPath(String key) {
-        Map<PrefixPath, Integer> pathMap = new HashMap<>();
+    public Map<PrefixPath, Long> findPrefixPath(String key) {
+        Map<PrefixPath, Long> pathMap = new HashMap<>();
         Header header = headerTable.get(key);
         FPTreeNode head = header.head;
         while (head != null) {
             // 从下自上找prefix path
-            Integer count = head.count;
+            Long count = head.count;
             FPTreeNode currNode = head.parent;
             // 自定义path类
             PrefixPath path = new PrefixPath(key);
@@ -60,7 +71,6 @@ public class FPTree {
         }
         return pathMap;
     }
-
 
     private void doCreate(FPTreeNode root, List<String> records) {
         if (records.isEmpty()) {
@@ -79,7 +89,7 @@ public class FPTree {
         if (flag == 0) {
             FPTreeNode node = FPTreeNode.builder()
                     .value(value)
-                    .count(1)
+                    .count(1L)
                     .children(new ArrayList<>())
                     .parent(root).build();
             children.add(node);

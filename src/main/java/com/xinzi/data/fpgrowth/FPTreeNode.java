@@ -17,7 +17,7 @@ import java.util.List;
 public class FPTreeNode {
 
     public String value;
-    public Integer count;
+    public Long count;
     public FPTreeNode nodeLink;
     public FPTreeNode parent;
     public List<FPTreeNode> children;

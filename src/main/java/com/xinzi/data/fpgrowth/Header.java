@@ -17,6 +17,6 @@ public class Header {
     public FPTreeNode head;
     public FPTreeNode tail;
     public String value;
-    public Integer count;
+    public Long count;
 
 }
