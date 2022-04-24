@@ -20,10 +20,10 @@ public class FPTreeTest {
         long start = System.currentTimeMillis();
         FPTree fpTree = new FPTree();
         Map<String, Header> headerTable = fpTree.getHeaderTable();
-        List<Pair<PrefixPath, Long>> ans = new ArrayList<>(24);
+        List<Pair<PrefixPath, Long>> ans = new ArrayList<>(128);
         headerTable.forEach((k, v) -> {
             Map<PrefixPath, Long> prefixPathMap = fpTree.findPrefixPath(k);
-            List<Pair<PrefixPath, Long>> temp = new ArrayList<>(24);
+            List<Pair<PrefixPath, Long>> temp = new ArrayList<>(128);
             List<Pair<PrefixPath, Long>> result;
             prefixPathMap.forEach((prefixPath, count) -> temp.add(new Pair<>(prefixPath, count)));
             result = temp.stream().sorted(Comparator.comparingInt(o -> o.getKey().size())).collect(Collectors.toList());
@@ -32,7 +32,7 @@ public class FPTreeTest {
                 Long count = pair1.getValue();
                 for (int j = i + 1; j < result.size(); j++) {
                     Pair<PrefixPath, Long> pair2 = result.get(j);
-                    if (pair2.getKey().containsAll(pair1.getKey())) {
+                    if (pair1.getKey().size() < pair2.getKey().size() && pair2.getKey().containsAll(pair1.getKey())) {
                         count += pair2.getValue();
                     }
                 }

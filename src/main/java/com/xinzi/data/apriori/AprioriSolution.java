@@ -29,7 +29,7 @@ public class AprioriSolution {
     }
 
     private void pruning() {
-        Integer support = SimpleDataUtil.SUPPORT;
+        Double support = SimpleDataUtil.SUPPORT;
         int size = this.itemSize();
         System.out.print("频繁" + size + "项集: ");
         Iterator<Map.Entry<CandidateSet, Long>> iterator = data.entrySet().iterator();

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class SimpleDataUtil {
 
     // 最小支持度
-    public static final Integer SUPPORT = 441;
+    public static final Double SUPPORT = 88162 * 0.005;
     // 数据
     public static List<List<String>> SIMPLE_DATA;
 
