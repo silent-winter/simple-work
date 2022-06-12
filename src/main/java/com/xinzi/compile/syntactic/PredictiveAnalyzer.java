@@ -1,6 +1,7 @@
 package com.xinzi.compile.syntactic;
 
 import com.google.common.collect.Sets;
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -15,6 +16,7 @@ import static com.xinzi.compile.syntactic.ExpressionUtil.*;
  * @Auther: xinzi
  * @Date: 2022/04/29/19:20
  */
+@Data
 public class PredictiveAnalyzer {
 
     // first集
