@@ -208,7 +208,7 @@ public class PredictiveAnalyzer {
 
     private void predictive() {
         this.selectMap.forEach((key, selectSet) -> {
-            String[] split = StringUtils.split(key, "->");
+            String[] split = key.split("->");
             for (String select : selectSet) {
                 Map<String, Set<String>> predict = predictiveMap.get(split[0]);
                 predict.putIfAbsent(select, new HashSet<>());
@@ -263,6 +263,17 @@ public class PredictiveAnalyzer {
 
     public void printPredictiveMap() {
         predictiveMap.forEach((nonTerminator, analyseMap) -> System.out.println(nonTerminator + "'s PredictiveMap = " + analyseMap));
+    }
+
+    public void printAllResult() {
+        System.out.println("===================first集==================");
+        this.printFirstMap();
+        System.out.println("===================follow集==================");
+        this.printFollowMap();
+        System.out.println("===================select集==================");
+        this.printSelectMap();
+        System.out.println("===================预测分析表==================");
+        this.printPredictiveMap();
     }
 
 }

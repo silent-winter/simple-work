@@ -4,6 +4,7 @@ import com.xinzi.compile.lexical.dfa.DFA;
 import com.xinzi.compile.lexical.nfa.NFA;
 import com.xinzi.compile.lexical.util.FileUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class LexicalAnalyzer {
     /**
      * 词法分析核心函数
      */
-    public List<Word> analyse() {
-        List<Word> result = new ArrayList<>();
+    public List<Pair<String, String>> analyse() {
+        List<Pair<String, String>> result = new ArrayList<>();
         // 读取程序文件
         String programme = FileUtil.readFile(new File("E:\\JavaEE\\project\\simple-work\\src\\main\\resources\\source_char.txt")).trim();
         // 读取正则表达式配置文件
@@ -41,19 +42,18 @@ public class LexicalAnalyzer {
                 }
                 String word = temp.toString();
                 if (StringUtils.equals(temp, "(") || StringUtils.equals(temp, ")")) {
-                    result.add(new Word(Word.typeOf("brackets", word), word));
+                    result.add(Pair.of("brackets", word));
+                    System.out.println("token=brackets, value=\"" + word + "\"");
                 } else {
                     for (String key : regexpMap.keySet()) {
                         // 自动机逐个分析
                         boolean analyze = this.analyze(regexpMap.get(key), word, true);
                         if (analyze) {
-                            result.add(new Word(Word.typeOf(key, word), word));
+                            result.add(Pair.of(key, word));
+                            System.out.println("token=" + key + ", value=\"" + word + "\"");
                             break;
                         }
                     }
-                }
-                if (c != ' ') {
-                    result.add(new Word(41, "HH"));
                 }
                 temp = new StringBuilder();
             } else {
@@ -67,7 +67,7 @@ public class LexicalAnalyzer {
                 String word = temp.toString();
                 boolean analyze = this.analyze(regexpMap.get(key), temp.toString(), true);
                 if (analyze) {
-                    result.add(new Word(Word.typeOf(key, word), word));
+                    result.add(Pair.of(key, word));
                     break;
                 }
             }

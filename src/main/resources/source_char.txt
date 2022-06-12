@@ -4,20 +4,11 @@ main ( ) {
       c = 3 ;
       while ( a > 0 ) {
           a = a - 1 ;
-          while ( b >= 0 ) {
+          while ( b > 0 ) {
               b = b - 1 ;
-              if ( c <= 0 ) {
+              if ( c > 0 ) {
                   c = 0 ;
               }
           }
      }
-     if ( a == b ) {
-           a = c ;
-           if ( b != c ) {
-                c = b ;
-           }
-           while ( a < b ) {
-                c = 0 ;
-           }
-     }
-} end
+}
