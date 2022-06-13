@@ -43,8 +43,8 @@ public class SyntacticAnalyzer {
         SYNTACTIC_MAP.put("S", "HX");
         SYNTACTIC_MAP.put("X", "*H|/H|ε");
         SYNTACTIC_MAP.put("H", "(S)|i|n");
-        SYNTACTIC_MAP.put("B", "f(D)T");
-        SYNTACTIC_MAP.put("C", "w(D)T");
+        SYNTACTIC_MAP.put("B", "f(D)TV");
+        SYNTACTIC_MAP.put("C", "w(D)TV");
         SYNTACTIC_MAP.put("D", "A>A");
     }
 
